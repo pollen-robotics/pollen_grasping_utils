@@ -3,7 +3,7 @@ from glob import glob
 
 import os
 
-package_name = "grasping_utils"
+package_name = "pollen_grasping_utils"
 
 setup(
     name=package_name,
