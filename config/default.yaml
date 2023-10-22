@@ -1,0 +1,18 @@
+global:
+  name: default
+  poses:
+    sol_antepregrasp_positions: [ 53.71, -17.67, -58.2, -117.4, -51.34, 1.46, 34.8 ]
+    sol_antepregrasp2_positions: [19.36, -7.54, -1.01, -111.39, -6.37, 1.45, 6.6]
+    sol_drop_positions: [-32.68, 2.13, 65.33, -81.01, -29.41, 8.75, 33.87]
+#    sol_drop_positions: [-9.65, 4.33, 55.69, -80.47, -8.75, -6.37, 32.4]
+reachable_grasp_triplet_node:
+  table_height: -0.335 # table height in torso frame
+  # Offsets in the grasp pose oriented like r_arm_tip (so x is up, y is left, z is backward)
+  # + means up
+  # Used to center the gripper on the object since
+  # the middle of the gripper is not the point controlled by the IK solver
+  # TODO this should be *-1 on the left arm
+  grasp_offset_x : 0.0
+  grasp_offset_y : 0.025
+  grasp_offset_z : -0.01
+  collision_table_margin : 0.035
