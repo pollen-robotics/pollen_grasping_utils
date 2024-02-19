@@ -1,9 +1,8 @@
 import numpy as np
-from scipy.spatial.transform import Rotation as R
-
 from geometry_msgs.msg import Pose
 from pollen_msgs.msg import GraspPose
 from rclpy.duration import Duration
+from scipy.spatial.transform import Rotation as R
 from std_msgs.msg import Header
 from visualization_msgs.msg import Marker, MarkerArray
 
@@ -95,7 +94,12 @@ def get_grasp_marker(
     direction_vector_y = R.from_quat(direction).apply(np.array([0.0, 1.0, 0.0]))
     direction_vector_z = R.from_quat(direction).apply(np.array([0.0, 0.0, 1.0]))
 
-    marker_color = (color[0] * (score * score), color[1] * (score * score), color[2] * (score * score), 1.0)
+    marker_color = (
+        color[0] * (score * score),
+        color[1] * (score * score),
+        color[2] * (score * score),
+        1.0,
+    )
 
     marker_tip = get_visualization_marker_msg(
         header=header,
@@ -308,3 +312,10 @@ def get_homogeneous_matrix_msg_from_euler(
     homogeneous_matrix[:3, :3] = R.from_euler("xyz", euler_angles, degrees=degrees).as_matrix()
     homogeneous_matrix[:3, 3] = position
     return homogeneous_matrix
+
+
+def get_euler_from_homogeneous_matrix(homogeneous_matrix, degrees: bool = False):
+    position = homogeneous_matrix[:3, 3]
+    rotation_matrix = homogeneous_matrix[:3, :3]
+    euler_angles = R.from_matrix(rotation_matrix).as_euler("xyz", degrees=degrees)
+    return position, euler_angles

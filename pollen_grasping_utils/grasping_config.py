@@ -12,10 +12,7 @@ pkg_share_path = get_package_share_directory("pollen_grasping_utils")
 
 def get_grasping_config_launch_argument():
     config_choices = []
-    for file in os.listdir(
-        os.path.dirname(os.path.realpath(__file__))
-        + "/../../pollen_grasping_utils/config"
-    ):
+    for file in os.listdir(os.path.dirname(os.path.realpath(__file__)) + "/../../pollen_grasping_utils/config"):
         if file.endswith(".yaml"):
             config_choices.append(file[:-5])
 
@@ -36,9 +33,7 @@ def load_grasping_config(node, config_path, config_keys=None):
                 node.get_logger().info(f"Loaded config file {config_path}")
                 return config_data if config_keys is None else config_data[config_keys]
             else:
-                node.get_logger().error(
-                    f"KeyError: the key {config_keys} does not exist in the config file {config_path}"
-                )
+                node.get_logger().error(f"KeyError: the key {config_keys} does not exist in the config file {config_path}")
                 return None
     except FileNotFoundError:
         node.get_logger().error(
@@ -53,13 +48,7 @@ def custom_pprint(value, indent=0):
     elif isinstance(value, dict):
         out_str = "{\n"
         for k, v in value.items():
-            out_str += (
-                "  " * (indent + 1)
-                + repr(k)
-                + ": "
-                + custom_pprint(v, indent + 1)
-                + ",\n"
-            )
+            out_str += "  " * (indent + 1) + repr(k) + ": " + custom_pprint(v, indent + 1) + ",\n"
         out_str += "  " * indent + "}"
         return out_str
     else:
