@@ -1,5 +1,5 @@
 import numpy as np
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Point, Pose
 from pollen_msgs.msg import GraspPose
 from rclpy.duration import Duration
 from scipy.spatial.transform import Rotation as R
@@ -151,7 +151,23 @@ def get_grasp_marker(
         lifetime=lifetime,
     )
 
-    marker_array = MarkerArray(markers=[marker_tip, marker_base, marker_grip1, marker_grip2])
+    top_quaternion = (R.from_quat(grasp_quaternion) * R.from_euler("xyz", [90.0, 0.0, 0.0], degrees=True)).as_quat()
+
+    marker_top = get_visualization_marker_msg(
+        header=header,
+        id=4 + marker_id,
+        type="cylinder",
+        action="add",
+        pose=np.array([x, y, z]) - width / 2000.0 * direction_vector_y,  # Going "backwards" from the grasp point along the grasp direction
+        orientation=top_quaternion,
+        scale=(0.01, 0.01, 2.0 * width / 2000.0),
+        color=(0.0, 0, 1.0, 1.0),
+        lifetime=lifetime,
+    )
+
+    marker_array = MarkerArray(markers=[
+        marker_tip, marker_base, marker_grip1, marker_grip2, marker_top
+    ])
 
     return marker_array
 
