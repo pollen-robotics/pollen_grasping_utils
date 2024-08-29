@@ -1,7 +1,7 @@
-from setuptools import setup
+import os
 from glob import glob
 
-import os
+from setuptools import setup
 
 package_name = "pollen_grasping_utils"
 
@@ -13,6 +13,7 @@ setup(
         ("share/" + package_name, ["package.xml"]),
         (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
         (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
+        ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
     ],
     install_requires=["setuptools"],
     zip_safe=True,
